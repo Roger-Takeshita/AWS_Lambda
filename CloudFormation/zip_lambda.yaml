@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Resources:
-  MyLambdaRole:
+  LambdaS3Role:
     Type: "AWS::IAM::Role"
     Properties:
       AssumeRolePolicyDocument:
@@ -22,15 +22,15 @@ Resources:
                 Action: "s3:*"
                 Resource: "*"
 
-  MyLambdaFunction:
+  WorkbookGeneratorLambda:
     Type: AWS::Lambda::Function
     Properties:
-      Role: !GetAtt MyLambdaRole.Arn
-      Runtime: nodejs18.x
+      Role: !GetAtt LambdaS3Role.Arn
+      Runtime: nodejs20.x
       Handler: index.handler
       Code:
         S3Bucket: pa-lambda-files
-        S3Key: pa-lambda-test.zip
+        S3Key: pa-lambda-workbook-generator.zip
       Tags:
         - Key: Name
-          Value: MyLambdaFunction
+          Value: WorkbookGeneratorLambda

@@ -6,6 +6,7 @@
 - [AWS::IAM::Role - Example](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html#aws-resource-iam-role--examples)
 - [AWS::LAMBDA::FUNCTION - Example](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#aws-resource-lambda-function--examples)
   - [AWS::Lambda::Function Code](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-code.html)
+- [Chrome AWS Lambda Layer](https://github.com/shelfio/chrome-aws-lambda-layer)
 
 ## Role
 
@@ -164,3 +165,7 @@ MyLambdaFunction:
       - Key: Name
         Value: MyLambdaFunction
 ```
+
+arn:aws:lambda:us-east-1:030048144159:layer:node_v20-workbook_gen_part_1:1
+arn:aws:lambda:us-east-1:030048144159:layer:node_v20-workbook_gen_part_2:1
+arn:aws:lambda:us-east-1:764866452798:layer:chrome-aws-lambda:45
