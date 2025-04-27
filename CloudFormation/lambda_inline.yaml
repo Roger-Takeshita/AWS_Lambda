@@ -14,14 +14,21 @@ Resources:
               - "sts:AssumeRole"
       Path: /
       Policies:
-        - PolicyName: root
+        - PolicyName: MyLambdaPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
                 Action: "s3:*"
-                Resource: "*"
-
+                Resource:
+                  - "*"
+              - Effect: Allow
+                Action:
+                  - "sqs:ReceiveMessage"
+                  - "sqs:DeleteMessage"
+                  - "sqs:GetQueueAttributes"
+                Resource:
+                  - "*"
   MyLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:

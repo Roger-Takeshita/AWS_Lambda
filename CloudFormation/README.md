@@ -48,8 +48,10 @@
 
 - Change `RootRole` to `MyLambdaRole`
 - Update the service type from `ec2.amazonaws.com` to `lambda.amazonaws.com`
+- Update policy name to `MyLambdaPolicy`
 - Update policy action to use `s3:*`
 - Remove `RootInstanceProfile` block
+- Add `SQS` block
 
 ```yaml
 AWSTemplateFormatVersion: "2010-09-09"
@@ -68,14 +70,42 @@ Resources:
               - "sts:AssumeRole"
       Path: /
       Policies:
-        - PolicyName: root
+        - PolicyName: MyLambdaPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
                 Action: "s3:*"
-                Resource: "*"
+                Resource:
+                  - "*"
+              - Effect: Allow
+                Action:
+                  - "sqs:ReceiveMessage"
+                  - "sqs:DeleteMessage"
+                  - "sqs:GetQueueAttributes"
+                Resource:
+                  - "*"
 ```
+
+- We could restrict policy
+
+  ```yaml
+  - PolicyName: MyLambdaPolicy
+    PolicyDocument:
+      Version: "2012-10-17"
+      Statement:
+        - Effect: Allow
+          Action: "s3:*"
+          Resource:
+            - "arn:aws:s3:::pa-prepbox"
+        - Effect: Allow
+          Action:
+            - "sqs:ReceiveMessage"
+            - "sqs:DeleteMessage"
+            - "sqs:GetQueueAttributes"
+          Resource:
+            - "arn:aws:sqs:us-east-1:030048144159:PrepBox"
+  ```
 
 ## Lamda
 

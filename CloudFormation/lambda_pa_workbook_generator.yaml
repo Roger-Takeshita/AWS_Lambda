@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Resources:
-  LambdaS3Role:
+  PALambdaRole:
     Type: "AWS::IAM::Role"
     Properties:
       AssumeRolePolicyDocument:
@@ -14,18 +14,28 @@ Resources:
               - "sts:AssumeRole"
       Path: /
       Policies:
-        - PolicyName: root
+        - PolicyName: PALambdaPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
                 Action: "s3:*"
-                Resource: "*"
-
+                Resource:
+                  - "*"
+                  # - "arn:aws:s3:::pa-prepbox"
+              - Effect: Allow
+                Action:
+                  - "sqs:ReceiveMessage"
+                  - "sqs:DeleteMessage"
+                  - "sqs:GetQueueAttributes"
+                Resource:
+                  - "*"
+                  # - "arn:aws:sqs:us-east-1:030048144159:PrepBox"
+                  # - "arn:aws:sqs:us-east-1:030048144159:PrepAnywhere"
   WorkbookGeneratorLambda:
     Type: AWS::Lambda::Function
     Properties:
-      Role: !GetAtt LambdaS3Role.Arn
+      Role: !GetAtt PALambdaRole.Arn
       Runtime: nodejs20.x
       Handler: index.handler
       Code:
